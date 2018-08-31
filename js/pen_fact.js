@@ -141,6 +141,7 @@ $(window).on('load', function(){
       });
       $('#title').on('touchend', function() {
         if(isLoadingText()) {
+          playSound("pon");
           start();
         }
       });
@@ -250,7 +251,6 @@ function loadObj(index) {
 
 function start() {
   $('#title').css("display", "none");
-  playSound("pon");
   main();
 }
 
