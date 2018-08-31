@@ -40,6 +40,7 @@ $(document).ready(function() {
   }else {
     score = lsScore;
   }
+  loadLSFlag = true;
   // レンダラーを作成
   renderer = new THREE.WebGLRenderer({
     canvas: document.getElementById('WebGL'),
@@ -147,7 +148,9 @@ $(window).on('load', function(){
       });
     }
   };
+});
 
+function start() {
   for(var i=0; i<score.length; i++) {
     $('.score').append("<p></p>");
     if((score.length-i-1)%3 == 0 && i != score.length-1) {
@@ -157,7 +160,8 @@ $(window).on('load', function(){
   $('.score').append("<p class='hon'>本</p>");
   fontResize();
   updateScore();
-});
+  main();
+}
 
 $(window).resize(function() {
   width = $('body').width();
@@ -208,8 +212,7 @@ function scoreAdd() {
 
 function loadObj(index) {
   if(index >= objSourceList.length) {
-    LoadingTextEnd();
-    main();
+    load3DFlag = true;
     return;
   }
 
@@ -255,7 +258,6 @@ function loadObj(index) {
 
 function main() {
   requestAnimationFrame(main);
-
   Action() ;
   FixModel();
   // レンダリング
