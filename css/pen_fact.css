@@ -29,12 +29,18 @@ img {
 
 @font-face {
 	font-family: 'PathwayGothicOne';
-	src: url(/resource/fonts/PathwayGothicOne-Regular.ttf);
+  font-weight: 400;
+  font-style: normal;
+	src: url(PathwayGothicOne-Regular.ttf);
+  font-display: swap;
 }
 
 @font-face {
 	font-family: 'KosugiMaru';
-	src: url(/resource/fonts/KosugiMaru-Regular.ttf);
+  font-weight: 400;
+  font-style: normal;
+	src: url(KosugiMaru-Regular.ttf);
+  font-display: swap;
 }
 
 p {
@@ -47,7 +53,6 @@ p {
   margin: 0 0.15%;
   width: 2%;
   vertical-align: top;
-  font-weight: 400;
 }
 
 .ten{
