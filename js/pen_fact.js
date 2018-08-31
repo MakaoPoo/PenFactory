@@ -62,8 +62,6 @@ $(document).ready(function() {
   addLight();
 
   loadObj(0);
-
-  LoadingTextStart();
 });
 
 function addLight() {
@@ -148,6 +146,7 @@ $(window).on('load', function(){
       });
     }
   };
+  LoadingTextStart();
 });
 
 function start() {
