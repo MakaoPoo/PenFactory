@@ -74,6 +74,14 @@ function threejsSetting() {
 }
 
 $(window).on('load', function(){
+  initWebAPI({
+    pon: "resource/pon.wav",
+    hyoi: "resource/hyoi.wav",
+    next: "resource/next.wav"
+  });
+  loadSound("pon");
+  loadSound("hyoi");
+  loadSound("next");
   threejsSetting();
 
   $(window).trigger('resize');
@@ -154,7 +162,7 @@ $(window).on('load', function(){
   updateScore();
 
   LoadingTextStart(function() {
-    return load3dFlag;
+    return load3dFlag && isSoundLoadEnd();
   });
 });
 
@@ -267,6 +275,7 @@ function Action() {
   if(movingCount == penSpan && Math.abs(rotateCount) == 180) {
     if(oneTap) {
       isCapSet[capObj.length-1] = !isCapSet[capObj.length-1];
+      playSound("pon");
     }else if(leftSwipe) {
       if(penDir[penObj.length/2] && isCapSet[capObj.length-1]) {
         scoreAdd();
@@ -276,14 +285,17 @@ function Action() {
       }else {
         miss++;
       }
+      playSound("next");
       slidePen();
       movingCount = speed;
     }else if(upSwipe && !isCapSet[capObj.length-1]) {
       penDir[capObj.length-1] = !penDir[capObj.length-1];
       rotateCount = speed*2;
+      playSound("hyoi");
     }else if(downSwipe && !isCapSet[capObj.length-1]) {
       penDir[capObj.length-1] = !penDir[capObj.length-1];
       rotateCount = -speed*2;
+      playSound("hyoi");
     }
   }
 
