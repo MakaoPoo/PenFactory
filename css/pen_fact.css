@@ -32,7 +32,7 @@ p {
   font-family: "Pathway Gothic One", sans-serif;
   color: #fff;
   text-align: center;
-  line-height: 85%;
+  line-height: 90%;
   background-color: #000000;
   margin: 0 0.15%;
   width: 2%;
@@ -41,12 +41,13 @@ p {
 }
 
 .ten{
+  font-family: sans-serif;
   width: 1.2%;
-  line-height: 60%;
+  line-height: 70%;
 }
 
 .hon{
-  font-family: 'Kosugi Maru', "Times", sans-serif;
+  font-family: 'Kosugi Maru', sans-serif;
   width: 2.5%;
-  line-height: 135%;
+  line-height: 130%;
 }
