@@ -15,7 +15,7 @@ var isCapSet =  new Array(capObj.length);
 let penSpan = 100;
 var movingCount = penSpan;
 var rotateCount = 180;
-var score;
+var score = new Array(35);;
 var miss;
 
 var touchStartX;
@@ -31,14 +31,15 @@ var oneTap = false;
 var touchstartTime;
 
 $(document).ready(function() {
-  // var ls = localStorage;
-  // score = JSON.parse(ls.getItem("score"));
-  // if(score == null) {
-    score = new Array(35);
+  var ls = localStorage;
+  var lsScore = JSON.parse(ls.getItem("score"));
+  if(lsScore == null) {
     for(var i=0; i<score.length; i++) {
       score[i] = 0;
     }
-  // }
+  }else {
+    score = lsScore;
+  }
   // レンダラーを作成
   renderer = new THREE.WebGLRenderer({
     canvas: document.getElementById('WebGL'),
@@ -287,8 +288,8 @@ function Action() {
     }else if(leftSwipe) {
       if(penDir[penObj.length/2] && isCapSet[capObj.length-1]) {
         scoreAdd();
-        // ls = localStorage;
-        // ls.setItem("score", JSON.stringify(score));
+        ls = localStorage;
+        ls.setItem("score", JSON.stringify(score));
         updateScore();
       }else {
         miss++;
