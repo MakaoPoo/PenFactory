@@ -37,17 +37,16 @@ p {
   margin: 0 0.15%;
   width: 2%;
   vertical-align: top;
-
+  font-weight: 400;
 }
 
 .ten{
-  font-family: sans-serif;
   width: 1.2%;
   line-height: 70%;
 }
 
 .hon{
-  font-family: sans-serif;
+  font-family: 'Kosugi Maru', sans-serif;
   width: 2.5%;
   line-height: 130%;
 }
