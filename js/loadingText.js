@@ -8,9 +8,6 @@ var textJumpTime = 30;
 var textJumpMax = 50;
 var textJumpWait = 50;
 
-var load3DFlag = false;
-var loadLSFlag = false;
-
 function setLoadingTextState(span, time, max, wait) {
   textJumpSpan = span;
   textJumpTime = time;
@@ -44,12 +41,10 @@ function LoadingTextEnd() {
   var canvas = document.getElementById("loadingText");
   var ctx = canvas.getContext('2d');
   ctx.clearRect(0, 0, canvas.width,  canvas.height);
-    start();
 }
 
 function LoadingTextDraw() {
-  if(load3DFlag && loadLSFlag) {
-    LoadingTextEnd();
+  if(loadingTextFlag) {
     return;
   }
 

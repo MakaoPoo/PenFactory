@@ -31,37 +31,7 @@ var oneTap = false;
 var touchstartTime;
 
 $(document).ready(function() {
-  var ls = localStorage;
-  var lsScore = JSON.parse(ls.getItem("score"));
-  if(lsScore == null) {
-    for(var i=0; i<score.length; i++) {
-      score[i] = 0;
-    }
-  }else {
-    score = lsScore;
-  }
-  loadLSFlag = true;
-  // レンダラーを作成
-  renderer = new THREE.WebGLRenderer({
-    canvas: document.getElementById('WebGL'),
-    alpha: true
-  });
-  renderer.setPixelRatio(window.devicePixelRatio);
 
-  $(window).trigger('resize');
-
-  // シーンを作成
-  scene = new THREE.Scene();
-  renderer.setClearColor(0x000000, 0.0);
-
-  // カメラを作成
-  camera = new THREE.PerspectiveCamera(45, 640 / 480, 1, 10000);
-  // camera.position.set(0, 0, +250);
-  camera.position.set(0, 32, +300);
-
-  addLight();
-
-  loadObj(0);
 });
 
 function addLight() {
@@ -94,6 +64,34 @@ function addLight() {
 }
 
 $(window).on('load', function(){
+  LoadingTextStart();
+  var ls = localStorage;
+  var lsScore = JSON.parse(ls.getItem("score"));
+  if(lsScore == null) {
+    for(var i=0; i<score.length; i++) {
+      score[i] = 0;
+    }
+  }else {
+    score = lsScore;
+  }
+  // レンダラーを作成
+  renderer = new THREE.WebGLRenderer({
+    canvas: document.getElementById('WebGL'),
+    alpha: true
+  });
+  renderer.setPixelRatio(window.devicePixelRatio);
+
+  $(window).trigger('resize');
+  // シーンを作成
+  scene = new THREE.Scene();
+  renderer.setClearColor(0x000000, 0.0);
+  // カメラを作成
+  camera = new THREE.PerspectiveCamera(45, 640 / 480, 1, 10000);
+  camera.position.set(0, 32, +300);
+
+  addLight();
+  loadObj(0);
+
   var device = ["iPhone", "iPad", "iPod", "Android"];
   for(var i=0; i<device.length; i++){
     if (navigator.userAgent.indexOf(device[i])>0){
@@ -146,10 +144,7 @@ $(window).on('load', function(){
       });
     }
   };
-  LoadingTextStart();
-});
 
-function start() {
   for(var i=0; i<score.length; i++) {
     $('.score').append("<p></p>");
     if((score.length-i-1)%3 == 0 && i != score.length-1) {
@@ -159,8 +154,7 @@ function start() {
   $('.score').append("<p class='hon'>本</p>");
   fontResize();
   updateScore();
-  main();
-}
+});
 
 $(window).resize(function() {
   width = $('body').width();
@@ -211,7 +205,8 @@ function scoreAdd() {
 
 function loadObj(index) {
   if(index >= objSourceList.length) {
-    load3DFlag = true;
+    LoadingTextEnd();
+    main();
     return;
   }
 
@@ -257,6 +252,7 @@ function loadObj(index) {
 
 function main() {
   requestAnimationFrame(main);
+
   Action() ;
   FixModel();
   // レンダリング
