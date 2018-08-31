@@ -142,7 +142,7 @@ $(window).on('load', function(){
 
       $('#title').on('touchstart', function() {
         playSoundSilent();
-      }
+      });
       $('#title').on('touchend', function() {
         if(isLoadingText()) {
           audioCtx.createBufferSource().audioBuffer;

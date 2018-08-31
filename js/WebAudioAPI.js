@@ -52,3 +52,9 @@ function playSound(name, time=-1){
 function isSoundLoadEnd() {
   return loadAudioFlag;
 }
+
+function playSoundSilent() {
+  const emptySource = audioCtx.createBufferSource();
+  emptySource.start();
+  emptySource.stop();
+}
