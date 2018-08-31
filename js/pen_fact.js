@@ -86,6 +86,11 @@ $(window).on('load', function(){
 
   $(window).trigger('resize');
 
+  $('#game_back').css("width",  640*canvasScale);
+  $('#game_back').css("height", 480*canvasScale);
+  $('#game_back').css("left", width/2 - 320*canvasScale);
+  $('#game_back').css("top", height/2 - 240*canvasScale);
+
   var ls = localStorage;
   var lsScore = JSON.parse(ls.getItem("score"));
   if(lsScore == null) {
@@ -132,6 +137,11 @@ $(window).on('load', function(){
           }else if(Math.abs(touchMoveX)<10 && Math.abs(touchMoveY)<10) {
             oneTap = true;
           }
+        }
+      });
+      $('#title').on('touchend', function() {
+        if(isLoadingText()) {
+          start();
         }
       });
       break;
@@ -184,10 +194,10 @@ $(window).resize(function() {
   $('#WebGL').css("left", width/2 - 320*canvasScale);
   $('#WebGL').css("top", height/2 - 240*canvasScale);
 
-  $('#game_back').css("width",  640*canvasScale);
-  $('#game_back').css("height", 480*canvasScale);
-  $('#game_back').css("left", width/2 - 320*canvasScale);
-  $('#game_back').css("top", height/2 - 240*canvasScale);
+  $('#title').css("width",  640*canvasScale);
+  $('#title').css("height", 480*canvasScale);
+  $('#title').css("left", width/2 - 320*canvasScale);
+  $('#title').css("top", height/2 - 240*canvasScale);
 
   fontResize();
 });
@@ -239,7 +249,7 @@ function loadObj(index) {
 }
 
 function start() {
-
+  $('#title').css("display", "none");
   main();
 }
 
