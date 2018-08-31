@@ -250,6 +250,7 @@ function loadObj(index) {
 
 function start() {
   $('#title').css("display", "none");
+  playSound("pon");
   main();
 }
 
