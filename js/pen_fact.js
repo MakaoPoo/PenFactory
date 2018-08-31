@@ -1,5 +1,6 @@
 let PI = 3.141592;
 var width, height;
+var canvasScale;
 
 var renderer;
 var scene;
@@ -14,8 +15,8 @@ var isCapSet =  new Array(capObj.length);
 let penSpan = 100;
 var movingCount = penSpan;
 var rotateCount = 180;
-var score = 0;
-var miss = 0;
+var score;
+var miss;
 
 var touchStartX;
 var touchStartY;
@@ -30,11 +31,13 @@ var oneTap = false;
 var touchstartTime;
 
 $(document).ready(function() {
-  if(!isNaN($.cookie('score'))) {
-    score = $.cookie('score');
-  }
-  if(!isNaN($.cookie('miss'))) {
-    miss = $.cookie('miss');
+  var ls = localStorage;
+  score = JSON.parse(ls.getItem("score"));
+  if(score == null) {
+    score = new Array(35);
+    for(var i=0; i<score.length; i++) {
+      score[i] = 0;
+    }
   }
   // レンダラーを作成
   renderer = new THREE.WebGLRenderer({
@@ -91,8 +94,6 @@ function addLight() {
 }
 
 $(window).on('load', function(){
-  updateScore();
-
   var device = ["iPhone", "iPad", "iPod", "Android"];
   for(var i=0; i<device.length; i++){
     if (navigator.userAgent.indexOf(device[i])>0){
@@ -145,39 +146,64 @@ $(window).on('load', function(){
       });
     }
   };
+
+  for(var i=0; i<score.length; i++) {
+    $('.score').append("<p></p>");
+    if((score.length-i-1)%3 == 0 && i != score.length-1) {
+      $('.score').append("<p class='ten'>,</p>");
+    }
+  }
+  $('.score').append("<p class='hon'>本</p>");
+  fontResize();
+  updateScore();
 });
 
 $(window).resize(function() {
   width = $('body').width();
   height = $('body').height();
 
-  var scale;
-
   if(height / width < 0.75) {
-    scale = height/480;
+    canvasScale = height/480;
   }else {
-    scale = width/640;
+    canvasScale = width/640;
   }
   setLoadingTextScale();
 
-  renderer.setSize(640*scale, 480*scale);
+  renderer.setSize(640*canvasScale, 480*canvasScale);
 
-  $('#WebGL').css("width",  640*scale);
-  $('#WebGL').css("height", 480*scale);
-  $('#WebGL').css("left", width/2 - 320*scale);
-  $('#WebGL').css("top", height/2 - 240*scale);
+  $('#WebGL').css("width",  640*canvasScale);
+  $('#WebGL').css("height", 480*canvasScale);
+  $('#WebGL').css("left", width/2 - 320*canvasScale);
+  $('#WebGL').css("top", height/2 - 240*canvasScale);
 
-  $('#game_back').css("width",  640*scale);
-  $('#game_back').css("height", 480*scale);
-  $('#game_back').css("left", width/2 - 320*scale);
-  $('#game_back').css("top", height/2 - 240*scale);
+  $('#game_back').css("width",  640*canvasScale);
+  $('#game_back').css("height", 480*canvasScale);
+  $('#game_back').css("left", width/2 - 320*canvasScale);
+  $('#game_back').css("top", height/2 - 240*canvasScale);
 
-  $('p').css("font-size", 30*scale +"px");
-  $('p').css("width", 627*scale);
-  $('p').css("top", height/2 - 230*scale);
-  $('p').css("left", $('#WebGL').css("left"));
-  $('p').css("letter-spacing", 3*scale +"px");
+  fontResize();
 });
+
+function fontResize() {
+  $('.score').css("width", 640*canvasScale);
+  $('.score').css("top", $('#WebGL').css("top"));
+  $('.score').css("left", $('#WebGL').css("left"));
+  $('.score').css("height", 19*canvasScale +"px");
+  $('p').css("font-size", 20*canvasScale +"px");
+  $('p').css("height", 18*canvasScale +"px");
+  $('.hon').css("font-size", 14*canvasScale +"px");
+}
+
+function scoreAdd() {
+  for(var i=score.length-1; i>=0; i--) {
+    score[i] += 1;
+    if(score[i] >= 10) {
+      score[i] = 0;
+      continue;
+    }
+    break;
+  }
+}
 
 function loadObj(index) {
   if(index >= objSourceList.length) {
@@ -260,12 +286,12 @@ function Action() {
       isCapSet[capObj.length-1] = !isCapSet[capObj.length-1];
     }else if(leftSwipe) {
       if(penDir[penObj.length/2] && isCapSet[capObj.length-1]) {
-        score++;
-        $.cookie('score', score);
+        scoreAdd();
+        ls = localStorage;
+        ls.setItem("score", JSON.stringify(score));
         updateScore();
       }else {
         miss++;
-        $.cookie('miss', miss);
       }
       slidePen();
       movingCount = speed;
@@ -285,12 +311,14 @@ function Action() {
 }
 
 function updateScore() {
-  var scoreStr = String(score);
-  var socreLength = scoreStr.length;
-  for(var i=0; i<34-socreLength; i++) {
-    scoreStr = '0' + scoreStr;
+  var p = $('p').first();
+  for(var i=0; i<score.length; i++) {
+    p.text(score[i]);
+    p = p.next('p');
+    if((score.length-i-1)%3 == 0 && i != score.length-1) {
+      p = p.next('p');
+    }
   }
-  $('p').text(scoreStr);
 }
 
 function FixModel() {
