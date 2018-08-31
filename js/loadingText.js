@@ -8,6 +8,8 @@ var textJumpTime = 30;
 var textJumpMax = 50;
 var textJumpWait = 50;
 
+var loadEndJoken;
+
 function setLoadingTextState(span, time, max, wait) {
   textJumpSpan = span;
   textJumpTime = time;
@@ -31,7 +33,8 @@ function setLoadingTextScale() {
   canvas.setAttribute("height", height);
 }
 
-function LoadingTextStart() {
+function LoadingTextStart(joken) {
+  loadEndJoken = joken;
   loadingTextFlag = false;
   LoadingTextDraw();
 }
@@ -41,10 +44,13 @@ function LoadingTextEnd() {
   var canvas = document.getElementById("loadingText");
   var ctx = canvas.getContext('2d');
   ctx.clearRect(0, 0, canvas.width,  canvas.height);
+
+  start();
 }
 
 function LoadingTextDraw() {
-  if(loadingTextFlag) {
+  if(loadingTextFlag || loadEndJoken()) {
+    LoadingTextEnd();
     return;
   }
 

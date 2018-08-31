@@ -15,7 +15,7 @@ var isCapSet =  new Array(capObj.length);
 let penSpan = 100;
 var movingCount = penSpan;
 var rotateCount = 180;
-var score = new Array(35);;
+var score = new Array(35);
 var miss;
 
 var touchStartX;
@@ -30,11 +30,21 @@ var oneTap = false;
 
 var touchstartTime;
 
-$(document).ready(function() {
+var load3dFlag = false;
 
-});
-
-function addLight() {
+function threejsSetting() {
+  // レンダラーを作成
+  renderer = new THREE.WebGLRenderer({
+    canvas: document.getElementById('WebGL'),
+    alpha: true
+  });
+  renderer.setPixelRatio(window.devicePixelRatio);
+  // シーンを作成
+  scene = new THREE.Scene();
+  renderer.setClearColor(0x000000, 0.0);
+  // カメラを作成
+  camera = new THREE.PerspectiveCamera(45, 640 / 480, 1, 10000);
+  camera.position.set(0, 32, +300);
   // 平行光源
   const directionalLight1 = new THREE.PointLight(0xFFFFFF, 0.5);
   directionalLight1.position.set(-50, 100, -50);
@@ -64,7 +74,10 @@ function addLight() {
 }
 
 $(window).on('load', function(){
-  LoadingTextStart();
+  threejsSetting();
+
+  $(window).trigger('resize');
+
   var ls = localStorage;
   var lsScore = JSON.parse(ls.getItem("score"));
   if(lsScore == null) {
@@ -74,28 +87,13 @@ $(window).on('load', function(){
   }else {
     score = lsScore;
   }
-  // レンダラーを作成
-  renderer = new THREE.WebGLRenderer({
-    canvas: document.getElementById('WebGL'),
-    alpha: true
-  });
-  renderer.setPixelRatio(window.devicePixelRatio);
 
-  $(window).trigger('resize');
-  // シーンを作成
-  scene = new THREE.Scene();
-  renderer.setClearColor(0x000000, 0.0);
-  // カメラを作成
-  camera = new THREE.PerspectiveCamera(45, 640 / 480, 1, 10000);
-  camera.position.set(0, 32, +300);
-
-  addLight();
   loadObj(0);
 
   var device = ["iPhone", "iPad", "iPod", "Android"];
   for(var i=0; i<device.length; i++){
     if (navigator.userAgent.indexOf(device[i])>0){
-      $('#loadingText').on('touchstart', function(event) {
+      $('.touch_area').on('touchstart', function(event) {
         event.preventDefault();
         touchstartTime = new Date().getTime();
         // 座標の取得
@@ -104,14 +102,14 @@ $(window).on('load', function(){
         touchEndX = touchStartX;
         touchEndY = touchStartY;
       });
-      $('#loadingText').on('touchmove', function(event) {
+      $('.touch_area').on('touchmove', function(event) {
         event.preventDefault();
         // 座標の取得
         touchEndX = event.touches[0].pageX;
         touchEndY = event.touches[0].pageY;
       });
 
-      $('#loadingText').on('touchend', function(event) {
+      $('.touch_area').on('touchend', function(event) {
         var touchendTime = new Date().getTime();
         if(touchendTime - touchstartTime < 300) {
           var touchMoveX = touchEndX - touchStartX;
@@ -154,6 +152,10 @@ $(window).on('load', function(){
   $('.score').append("<p class='hon'>本</p>");
   fontResize();
   updateScore();
+
+  LoadingTextStart(function() {
+    return load3dFlag;
+  });
 });
 
 $(window).resize(function() {
@@ -182,31 +184,9 @@ $(window).resize(function() {
   fontResize();
 });
 
-function fontResize() {
-  $('.score').css("width", 640*canvasScale);
-  $('.score').css("top", $('#WebGL').css("top"));
-  $('.score').css("left", $('#WebGL').css("left"));
-  $('.score').css("height", 19*canvasScale +"px");
-  $('p').css("font-size", 20*canvasScale +"px");
-  $('p').css("height", 18*canvasScale +"px");
-  $('.hon').css("font-size", 14*canvasScale +"px");
-}
-
-function scoreAdd() {
-  for(var i=score.length-1; i>=0; i--) {
-    score[i] += 1;
-    if(score[i] >= 10) {
-      score[i] = 0;
-      continue;
-    }
-    break;
-  }
-}
-
 function loadObj(index) {
   if(index >= objSourceList.length) {
-    LoadingTextEnd();
-    main();
+    load3dFlag = true;
     return;
   }
 
@@ -248,6 +228,11 @@ function loadObj(index) {
       loadObj(index+1);
     });
   });
+}
+
+function start() {
+
+  main();
 }
 
 function main() {
@@ -308,6 +293,17 @@ function Action() {
   leftSwipe = false;
 }
 
+function scoreAdd() {
+  for(var i=score.length-1; i>=0; i--) {
+    score[i] += 1;
+    if(score[i] >= 10) {
+      score[i] = 0;
+      continue;
+    }
+    break;
+  }
+}
+
 function updateScore() {
   var p = $('p').first();
   for(var i=0; i<score.length; i++) {
@@ -317,6 +313,16 @@ function updateScore() {
       p = p.next('p');
     }
   }
+}
+
+function fontResize() {
+  $('.score').css("width", 640*canvasScale);
+  $('.score').css("top", $('#WebGL').css("top"));
+  $('.score').css("left", $('#WebGL').css("left"));
+  $('.score').css("height", 19*canvasScale +"px");
+  $('p').css("font-size", 20*canvasScale +"px");
+  $('p').css("height", 18*canvasScale +"px");
+  $('.hon').css("font-size", 14*canvasScale +"px");
 }
 
 function FixModel() {

@@ -20,6 +20,12 @@ img {
   position: absolute;
 }
 
+.touch_area {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
 .score {
   position: absolute;
   text-align: center;
