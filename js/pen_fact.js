@@ -31,14 +31,14 @@ var oneTap = false;
 var touchstartTime;
 
 $(document).ready(function() {
-  var ls = localStorage;
-  score = JSON.parse(ls.getItem("score"));
-  if(score == null) {
+  // var ls = localStorage;
+  // score = JSON.parse(ls.getItem("score"));
+  // if(score == null) {
     score = new Array(35);
     for(var i=0; i<score.length; i++) {
       score[i] = 0;
     }
-  }
+  // }
   // レンダラーを作成
   renderer = new THREE.WebGLRenderer({
     canvas: document.getElementById('WebGL'),
@@ -287,8 +287,8 @@ function Action() {
     }else if(leftSwipe) {
       if(penDir[penObj.length/2] && isCapSet[capObj.length-1]) {
         scoreAdd();
-        ls = localStorage;
-        ls.setItem("score", JSON.stringify(score));
+        // ls = localStorage;
+        // ls.setItem("score", JSON.stringify(score));
         updateScore();
       }else {
         miss++;
