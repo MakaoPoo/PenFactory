@@ -16,7 +16,6 @@ let penSpan = 100;
 var movingCount = penSpan;
 var rotateCount = 180;
 var score = new Array(35);
-var miss;
 
 var touchStartX;
 var touchStartY;
@@ -86,10 +85,10 @@ $(window).on('load', function(){
 
   $(window).trigger('resize');
 
-  $('#game_back').css("width",  640*canvasScale);
-  $('#game_back').css("height", 480*canvasScale);
-  $('#game_back').css("left", width/2 - 320*canvasScale);
-  $('#game_back').css("top", height/2 - 240*canvasScale);
+  $('#title').css("width",  640*canvasScale);
+  $('#title').css("height", 480*canvasScale);
+  $('#title').css("left", width/2 - 320*canvasScale);
+  $('#title').css("top", height/2 - 240*canvasScale);
 
   var ls = localStorage;
   var lsScore = JSON.parse(ls.getItem("score"));
@@ -199,10 +198,10 @@ $(window).resize(function() {
   $('#WebGL').css("left", width/2 - 320*canvasScale);
   $('#WebGL').css("top", height/2 - 240*canvasScale);
 
-  $('#title').css("width",  640*canvasScale);
-  $('#title').css("height", 480*canvasScale);
-  $('#title').css("left", width/2 - 320*canvasScale);
-  $('#title').css("top", height/2 - 240*canvasScale);
+  $('img').css("width",  640*canvasScale);
+  $('img').css("height", 480*canvasScale);
+  $('img').css("left", width/2 - 320*canvasScale);
+  $('img').css("top", height/2 - 240*canvasScale);
 
   fontResize();
 });
@@ -297,8 +296,6 @@ function Action() {
         ls = localStorage;
         ls.setItem("score", JSON.stringify(score));
         updateScore();
-      }else {
-        miss++;
       }
       playSound("next");
       slidePen();
