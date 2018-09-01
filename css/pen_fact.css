@@ -18,6 +18,7 @@ canvas {
 
 img {
   position: absolute;
+  pointer-events: none;
 }
 
 .touch_area {

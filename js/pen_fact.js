@@ -102,67 +102,28 @@ $(window).on('load', function(){
 
   loadObj(0);
 
-  var device = ["iPhone", "iPad", "iPod", "Android"];
-  for(var i=0; i<device.length; i++){
-    if (navigator.userAgent.indexOf(device[i])>0){
-      $('.touch_area').on('touchstart', function(event) {
-        event.preventDefault();
-        touchstartTime = new Date().getTime();
-        // 座標の取得
-        touchStartX = event.touches[0].pageX;
-        touchStartY = event.touches[0].pageY;
-        touchEndX = touchStartX;
-        touchEndY = touchStartY;
-      });
-      $('.touch_area').on('touchmove', function(event) {
-        event.preventDefault();
-        // 座標の取得
-        touchEndX = event.touches[0].pageX;
-        touchEndY = event.touches[0].pageY;
-      });
-
-      $('.touch_area').on('touchend', function(event) {
-        var touchendTime = new Date().getTime();
-        if(touchendTime - touchstartTime < 300) {
-          var touchMoveX = touchEndX - touchStartX;
-          var touchMoveY = touchEndY - touchStartY;
-
-          if (touchMoveY > 50 && Math.abs(touchMoveY/touchMoveX) > 2) {
-            upSwipe = true;
-          }else if (touchMoveY < -50 && Math.abs(touchMoveY/touchMoveX) > 2) {
-            downSwipe = true;
-          }else if (touchMoveX < -50 && Math.abs(touchMoveX/touchMoveY) > 2) {
-            leftSwipe = true;
-          }else if(Math.abs(touchMoveX)<10 && Math.abs(touchMoveY)<10) {
-            oneTap = true;
-          }
-        }
-      });
-
-      $('#title').on('touchstart', function() {
-        playSoundSilent();
-      });
-      $('#title').on('touchend', function() {
+  switch(getDevice()) {
+  case "phone":
+    $('.touch_area').on('touchstart', function() {
+      playSoundSilent();
+    });
+    $('.touch_area').on('touchend', function() {
+      if(isLoadingText()) {
+        playSound("pon");
+        start();
+      }
+    });
+    break;
+  case "pc":
+    $('html').keyup(function(e){
+      if(e.keyCode == 32){
         if(isLoadingText()) {
-          audioCtx.createBufferSource().audioBuffer;
+          playSound("pon");
           start();
         }
-      });
-      break;
-    }
-    if(i == device.length-1) {
-      $('html').keydown(function(e){
-        if(e.keyCode == 38){
-          upSwipe = true;
-        }else if(e.keyCode == 40){
-          downSwipe = true;
-        }else if(e.keyCode == 37){
-          leftSwipe = true;
-        }else if(e.keyCode == 32){
-          oneTap = true;
-        }
-      });
-    }
+      }
+    });
+    break;
   };
 
   for(var i=0; i<score.length; i++) {
@@ -179,6 +140,16 @@ $(window).on('load', function(){
     return load3dFlag && isSoundLoadEnd();
   });
 });
+
+function getDevice() {
+  var device = ["iPhone", "iPad", "iPod", "Android"];
+  for(var i=0; i<device.length; i++){
+    if (navigator.userAgent.indexOf(device[i])>0){
+      return "phone";
+    }
+  }
+  return "pc";
+}
 
 $(window).resize(function() {
   width = $('body').width();
@@ -253,7 +224,62 @@ function loadObj(index) {
 }
 
 function start() {
+  $('.touch_area').off("touchstart");
+  $('.touch_area').off("touchend");
+  $('html').off("keyup");
   $('#title').css("display", "none");
+
+  switch(getDevice()) {
+  case "phone":
+    $('.touch_area').on('touchstart', function(event) {
+      event.preventDefault();
+      touchstartTime = new Date().getTime();
+      // 座標の取得
+      touchStartX = event.touches[0].pageX;
+      touchStartY = event.touches[0].pageY;
+      touchEndX = touchStartX;
+      touchEndY = touchStartY;
+    });
+    $('.touch_area').on('touchmove', function(event) {
+      event.preventDefault();
+      // 座標の取得
+      touchEndX = event.touches[0].pageX;
+      touchEndY = event.touches[0].pageY;
+    });
+
+    $('.touch_area').on('touchend', function(event) {
+      var touchendTime = new Date().getTime();
+      if(touchendTime - touchstartTime < 300) {
+        var touchMoveX = touchEndX - touchStartX;
+        var touchMoveY = touchEndY - touchStartY;
+
+        if (touchMoveY > 50 && Math.abs(touchMoveY/touchMoveX) > 2) {
+          upSwipe = true;
+        }else if (touchMoveY < -50 && Math.abs(touchMoveY/touchMoveX) > 2) {
+          downSwipe = true;
+        }else if (touchMoveX < -50 && Math.abs(touchMoveX/touchMoveY) > 2) {
+          leftSwipe = true;
+        }else if(Math.abs(touchMoveX)<10 && Math.abs(touchMoveY)<10) {
+          oneTap = true;
+        }
+      }
+    });
+    break;
+  case "pc":
+    $('html').keydown(function(e){
+      if(e.keyCode == 38){
+        upSwipe = true;
+      }else if(e.keyCode == 40){
+        downSwipe = true;
+      }else if(e.keyCode == 37){
+        leftSwipe = true;
+      }else if(e.keyCode == 32){
+        oneTap = true;
+      }
+    });
+    break;
+  }
+
   main();
 }
 
