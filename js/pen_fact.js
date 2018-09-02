@@ -155,6 +155,9 @@ $(window).resize(function() {
   }else {
     canvasScale = width/640;
   }
+
+  renderer.setSize(640*canvasScale, 480*canvasScale);
+
   setLoadingTextScale();
 
   fontResize();
