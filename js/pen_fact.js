@@ -85,11 +85,6 @@ $(window).on('load', function(){
 
   $(window).trigger('resize');
 
-  $('#title').css("width",  640*canvasScale);
-  $('#title').css("height", 480*canvasScale);
-  $('#title').css("left", width/2 - 320*canvasScale);
-  $('#title').css("top", height/2 - 240*canvasScale);
-
   var ls = localStorage;
   var lsScore = JSON.parse(ls.getItem("score"));
   if(lsScore == null) {
@@ -162,18 +157,6 @@ $(window).resize(function() {
   }
   setLoadingTextScale();
 
-  renderer.setSize(640*canvasScale, 480*canvasScale);
-
-  $('#WebGL').css("width",  640*canvasScale);
-  $('#WebGL').css("height", 480*canvasScale);
-  $('#WebGL').css("left", width/2 - 320*canvasScale);
-  $('#WebGL').css("top", height/2 - 240*canvasScale);
-
-  $('img').css("width",  640*canvasScale);
-  $('img').css("height", 480*canvasScale);
-  $('img').css("left", width/2 - 320*canvasScale);
-  $('img').css("top", height/2 - 240*canvasScale);
-
   fontResize();
 });
 
@@ -224,6 +207,9 @@ function loadObj(index) {
 }
 
 function start() {
+  $('.wrapper').css("visibility", "visible");
+  $('#title').css("visibility", "hidden");
+
   $('.touch_area').off("touchstart");
   $('.touch_area').off("touchend");
   $('html').off("keyup");
@@ -366,13 +352,7 @@ function updateScore() {
 }
 
 function fontResize() {
-  $('.score').css("width", 640*canvasScale);
-  $('.score').css("top", $('#WebGL').css("top"));
-  $('.score').css("left", $('#WebGL').css("left"));
-  $('.score').css("height", 19*canvasScale +"px");
-  $('p').css("font-size", 20*canvasScale +"px");
-  $('p').css("height", 18*canvasScale +"px");
-  $('.hon').css("font-size", 14*canvasScale +"px");
+  $('.wrapper').css("font-size", 20*canvasScale +"px");
 }
 
 function FixModel() {
