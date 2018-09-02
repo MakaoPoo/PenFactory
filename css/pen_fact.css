@@ -41,7 +41,7 @@ canvas {
 
 .score {
   position: absolute;
-  background-color: #ffffff;
+  background-color: #ff0000;
   text-align: center;
   height: 4.0%;
   width: 100%;
