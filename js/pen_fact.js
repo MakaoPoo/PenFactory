@@ -122,12 +122,12 @@ $(window).on('load', function(){
   };
 
   for(var i=0; i<score.length; i++) {
-    $('.score').append("<p></p>");
+    $('.score').append("<div class='num'><p></p></div>");
     if((score.length-i-1)%3 == 0 && i != score.length-1) {
-      $('.score').append("<p class='ten'>,</p>");
+      $('.score').append("<div class='ten'><p>,</p></div>");
     }
   }
-  $('.score').append("<p class='hon'>本</p>");
+  $('.score').append("<div class='hon'><p>本</p></div>");
   fontResize();
   updateScore();
 
@@ -344,13 +344,10 @@ function scoreAdd() {
 }
 
 function updateScore() {
-  var p = $('p').first();
+  var num = $('.num').first();
   for(var i=0; i<score.length; i++) {
-    p.text(score[i]);
-    p = p.next('p');
-    if((score.length-i-1)%3 == 0 && i != score.length-1) {
-      p = p.next('p');
-    }
+    num.children('p').text(score[i]);
+    num = num.nextAll('.num').first();
   }
 }
 

@@ -48,31 +48,56 @@ canvas {
   font-display: swap;
 }
 
-p {
+.score {
+  position: absolute;
+  height: 4.0%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.score>div {
+  position: relative;
   display: inline-block;
-  font-family: PathwayGothicOne, sans-serif;
-  color: #fff;
-  width: 2%;
-  height: 90%;
-  text-align: center;
+  height: 92%;
   background-color: #000000;
   margin: 0 0.15%;
   vertical-align: top;
-  line-height: 85%;
-  font-size: 100%;
-  top: 0;
+}
+
+.num {
+  width: 2%;
 }
 
 .ten{
   width: 1.2%;
-  line-height: 50%;
 }
 
 .hon{
+  width: 2.7%;
+}
+
+p {
+  position: absolute;
+  font-family: PathwayGothicOne, sans-serif;
+  color: #fff;
+  font-size: 100%;
+  margin: 0;
+  top: 48%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+}
+
+.ten>p {
+  top: 35%;
+}
+
+.hon>p {
   font-family: KosugiMaru, sans-serif;
-  width: 2.5%;
-  line-height: 120%;
   font-size: 70%;
+  top: 53%;
 }
 
 .wrapper {
@@ -99,14 +124,4 @@ p {
 
 #title {
   visibility: visible;
-}
-
-.score {
-  position: absolute;
-  height: 4.0%;
-  width: 100%;
-  top: 0;
-  left: 0;
-  pointer-events: none;
-  overflow: hidden;
 }
