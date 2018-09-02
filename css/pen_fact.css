@@ -23,15 +23,6 @@ canvas {
   height: 100%;
 }
 
-.score {
-  position: absolute;
-  text-align: center;
-  margin: 0;
-  background-color: #ffffff;
-  top: 0;
-  left: 0;
-}
-
 @font-face {
 	font-family: 'PathwayGothicOne';
   font-weight: 400;
@@ -50,12 +41,14 @@ canvas {
 
 .score {
   position: absolute;
+  background-color: #ffffff;
+  text-align: center;
   height: 4.0%;
   width: 100%;
+  margin: 0;
   top: 0;
   left: 0;
   pointer-events: none;
-  overflow: hidden;
 }
 
 .score>div {
@@ -80,24 +73,21 @@ canvas {
 }
 
 p {
-  position: absolute;
   font-family: PathwayGothicOne, sans-serif;
-  color: #f00;
-  font-size: 100%;
+  color: #fff;
+  font-size: 1rem;
   margin: 0;
-  top: 48%;
-  left: 50%;
-  -webkit-transform: translate(-50%, -50%);
+  line-height: 85%;
 }
 
 .ten>p {
-  top: 35%;
+  line-height: 60%;
 }
 
 .hon>p {
   font-family: KosugiMaru, sans-serif;
-  font-size: 70%;
-  top: 53%;
+  font-size: 0.7rem;
+  line-height: 130%;
 }
 
 .wrapper {

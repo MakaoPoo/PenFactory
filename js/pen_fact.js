@@ -352,7 +352,7 @@ function updateScore() {
 }
 
 function fontResize() {
-  $('.wrapper').css("font-size", 20*canvasScale +"px");
+  $('html').css("font-size", 20*canvasScale +"px");
 }
 
 function FixModel() {
